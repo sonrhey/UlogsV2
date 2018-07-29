@@ -273,8 +273,9 @@ class Write extends React.Component {
     if (isBodyEmpty) return;
 
     const redirect = id !== this.draftId;
+    const editorUrl = this.props.location.pathname.split('/')[1];
 
-    this.props.saveDraft({ postData: data, id: this.draftId }, redirect, this.props.intl);
+    this.props.saveDraft({ postData: data, id: this.draftId, editorUrl: editorUrl }, redirect, this.props.intl);
   }, 2000);
 
   render() {
@@ -292,8 +293,6 @@ class Write extends React.Component {
           <Affix className="rightContainer" stickPosition={77}>
             <div className="right">
               <LastDraftsContainer />
-            </div>
-            <div className="right">
               <VideoEmbed key="embed"
                 embed={{
                   provider_name: 'YouTube',

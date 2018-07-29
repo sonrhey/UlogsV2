@@ -34,7 +34,7 @@ export const DELETE_EDITED_POST = '@editor/DELETE_EDITED_POST';
 export const deleteEditedPost = createAction(DELETE_EDITED_POST);
 
 export const saveDraft = (post, redirect, intl) => dispatch => {
-  if (redirect) dispatch(push(`/editor?draft=${post.id}`));
+  if (redirect) dispatch(push(`/${post.editorUrl}?draft=${post.id}`));
   return dispatch({
     type: SAVE_DRAFT,
     payload: {
@@ -73,8 +73,10 @@ export const editPost = post => dispatch => {
     lastUpdated: new Date(),
     isUpdating: true,
   };
+
+  let editorUrl = 'editor';
   dispatch(saveDraft({ postData: draft, id: post.id })).then(() =>
-    dispatch(push(`/editor?draft=${post.id}`)),
+    dispatch(push(`/${editorUrl}?draft=${post.id}`)),
   );
 };
 

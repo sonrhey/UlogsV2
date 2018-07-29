@@ -187,7 +187,7 @@ class EditorMain extends React.Component {
 
     if (Object.values(form.getFieldsError()).filter(e => e).length > 0) return;
 
-  //  this.props.onUpdate(values);
+    this.props.onUpdate(values);
   }
 
   handleSubmit(e) {
