@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, FormattedRelative } from 'react-intl';
 import { Link } from 'react-router-dom';
 import Loading from '../../components/Icon/Loading';
+import { jsonParse } from '../../helpers/formatter';
 import './LastDrafts.less';
 import './SidebarContentBlock.less';
 
-const Draft = ({ draft }) => (
+const Draft = ({ draft, editorUrl }) => (
   <div className="LastDrafts__draft">
-    <Link to={{ pathname: '/editor', search: `?draft=${draft.id}` }}>
+    <Link to={{ pathname: `/${editorUrl}`, search: `?draft=${draft.id}` }}>
       {draft.title ? (
         draft.title
       ) : (
@@ -22,6 +23,7 @@ const Draft = ({ draft }) => (
 );
 Draft.propTypes = {
   draft: PropTypes.shape().isRequired,
+  editorUrl: PropTypes.string.isRequired,
 };
 
 const LastDrafts = ({ drafts, loaded }) => {
@@ -41,7 +43,14 @@ const LastDrafts = ({ drafts, loaded }) => {
         {empty && (
           <FormattedMessage id="drafts_empty" defaultMessage="You don't have any draft saved" />
         )}
-        {drafts.map(draft => <Draft key={draft.id} draft={draft} />)}
+        {drafts.map(draft => {
+          const tags = draft.jsonMetadata.tags;
+          let editorUrl = 'editor';
+          if (tags && tags[0] === "ulog") {
+            editorUrl = 'main-editor';
+          }
+          return <Draft key={draft.id} draft={draft} editorUrl={editorUrl}/>;
+        })}
         {!empty && (
           <h4 className="LastDrafts__more">
             <Link to={'/drafts'}>
