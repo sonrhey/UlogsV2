@@ -57,7 +57,7 @@ const routes = [
         component: Wallet,
       },
       {
-        path: '/(editor|main-editor|surpassinggoogle|fanlove)',
+        path: '/(editor|main-editor|surpassinggoogle|fanlove|ulog-ned)',
         component: Editor,
       },
       {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import { replace } from 'react-router-redux';
 import _ from 'lodash';
 import 'url-search-params-polyfill';
@@ -28,6 +28,7 @@ import {
 import { createPost, saveDraft, newPost } from './editorActions';
 import Editor from '../../components/Editor/Editor';
 import EditorMain from '../../components/Editor/EditorMain';
+import EditorUlogNed from '../../components/Editor/EditorUlogNed';
 import EditorBeLikeTerry from '../../components/Editor/EditorBeLikeTerry';
 import EditorSurpassingGoogle from '../../components/Editor/EditorSurpassingGoogle';
 import Affix from '../../components/Utils/Affix';
@@ -281,11 +282,6 @@ class Write extends React.Component {
   render() {
     const { initialTitle, initialTopics, initialBody, initialReward, initialUpvote } = this.state;
     const { loading, saving, draftId } = this.props;
-    const current = this.props.location.pathname.split('/')[1];
-    const isUlog = current === "editor";
-    const isMainEditor = current === "main-editor";
-    const isSurpassing = current === "surpassinggoogle";
-    const isBeLikeTerry = current === "fanlove";
 
     return (
       <div className="shifted">
@@ -293,84 +289,131 @@ class Write extends React.Component {
           <Affix className="rightContainer" stickPosition={77}>
             <div className="right">
               <LastDraftsContainer />
-              <VideoEmbed key="embed"
-                embed={{
-                  provider_name: 'YouTube',
-                  thumbnail: 'https://steemitimages.com/360x203/https://img.youtube.com/vi/kKZ1CixLG2s/0.jpg',
-                  embed: '<iframe width="270" height="158" src="https://www.youtube.com/embed/kKZ1CixLG2s?autoplay=1&amp;autohide=1&amp;enablejsapi=0&amp;rel=0&amp;origin=https://steemit.com" frameborder="0" allowfullscreen=""></iframe>',
-                }}
-              />
+              <Switch>
+                <Route
+                  path="/main-editor"
+                  render={() => (
+                    <VideoEmbed key="embed"
+                      embed={{
+                        provider_name: 'YouTube',
+                        thumbnail: 'https://steemitimages.com/360x203/https://img.youtube.com/vi/kKZ1CixLG2s/0.jpg',
+                        embed: '<iframe width="270" height="158" src="https://www.youtube.com/embed/kKZ1CixLG2s?autoplay=1&amp;autohide=1&amp;enablejsapi=0&amp;rel=0&amp;origin=https://steemit.com" frameborder="0" allowfullscreen=""></iframe>',
+                      }}
+                    />
+                  )}
+                />
+                <Route render={() => (
+                    <VideoEmbed key="embed"
+                      embed={{
+                        provider_name: 'YouTube',
+                        thumbnail: 'https://steemitimages.com/360x203/https://img.youtube.com/vi/kKZ1CixLG2s/0.jpg',
+                        embed: '<iframe width="270" height="158" src="https://www.youtube.com/embed/kKZ1CixLG2s?autoplay=1&amp;autohide=1&amp;enablejsapi=0&amp;rel=0&amp;origin=https://steemit.com" frameborder="0" allowfullscreen=""></iframe>',
+                      }}
+                    />
+                )} />
+              </Switch>
             </div>
           </Affix>
           <div className="center">
-            {isUlog && (
-              <Editor
-                ref={this.setForm}
-                saving={saving}
-                title={initialTitle}
-                topics={initialTopics}
-                body={initialBody}
-                reward={initialReward}
-                upvote={initialUpvote}
-                draftId={draftId}
-                loading={loading}
-                isUpdating={this.state.isUpdating}
-                onUpdate={this.saveDraft}
-                onSubmit={this.onSubmit}
-                onDelete={this.onDelete}
+            <Switch>
+              <Route
+                path="/main-editor"
+                render={() => (
+                  <EditorMain
+                    ref={this.setForm}
+                    saving={saving}
+                    title={initialTitle}
+                    topics={initialTopics}
+                    body={initialBody}
+                    reward={initialReward}
+                    upvote={initialUpvote}
+                    draftId={draftId}
+                    loading={loading}
+                    isUpdating={this.state.isUpdating}
+                    onUpdate={this.saveDraft}
+                    onSubmit={this.onSubmit}
+                    onDelete={this.onDelete}
+                  />
+                )}
               />
-            )}
-            {isMainEditor && (
-              <EditorMain
-                ref={this.setForm}
-                saving={saving}
-                title={initialTitle}
-                topics={initialTopics}
-                body={initialBody}
-                reward={initialReward}
-                upvote={initialUpvote}
-                draftId={draftId}
-                loading={loading}
-                isUpdating={this.state.isUpdating}
-                onUpdate={this.saveDraft}
-                onSubmit={this.onSubmit}
-                onDelete={this.onDelete}
+              <Route
+                path="/surpassinggoogle"
+                render={() => (
+                  <EditorSurpassingGoogle
+                    ref={this.setForm}
+                    saving={saving}
+                    title={initialTitle}
+                    topics={initialTopics}
+                    body={initialBody}
+                    reward={initialReward}
+                    upvote={initialUpvote}
+                    draftId={draftId}
+                    loading={loading}
+                    isUpdating={this.state.isUpdating}
+                    onUpdate={this.saveDraft}
+                    onSubmit={this.onSubmit}
+                    onDelete={this.onDelete}
+                  />
+                )}
               />
-            )}
-            {isSurpassing && (
-              <EditorSurpassingGoogle
-                ref={this.setForm}
-                saving={saving}
-                title={initialTitle}
-                topics={initialTopics}
-                body={initialBody}
-                reward={initialReward}
-                upvote={initialUpvote}
-                draftId={draftId}
-                loading={loading}
-                isUpdating={this.state.isUpdating}
-                onUpdate={this.saveDraft}
-                onSubmit={this.onSubmit}
-                onDelete={this.onDelete}
+              <Route
+                path="/surpassinggoogle"
+                render={() => (
+                  <EditorBeLikeTerry
+                    ref={this.setForm}
+                    saving={saving}
+                    title={initialTitle}
+                    topics={initialTopics}
+                    body={initialBody}
+                    reward={initialReward}
+                    upvote={initialUpvote}
+                    draftId={draftId}
+                    loading={loading}
+                    isUpdating={this.state.isUpdating}
+                    onUpdate={this.saveDraft}
+                    onSubmit={this.onSubmit}
+                    onDelete={this.onDelete}
+                  />
+                )}
               />
-            )}
-            {isBeLikeTerry && (
-              <EditorBeLikeTerry
-                ref={this.setForm}
-                saving={saving}
-                title={initialTitle}
-                topics={initialTopics}
-                body={initialBody}
-                reward={initialReward}
-                upvote={initialUpvote}
-                draftId={draftId}
-                loading={loading}
-                isUpdating={this.state.isUpdating}
-                onUpdate={this.saveDraft}
-                onSubmit={this.onSubmit}
-                onDelete={this.onDelete}
+              <Route
+                path="/ulog-ned"
+                render={() => (
+                  <EditorUlogNed
+                    ref={this.setForm}
+                    saving={saving}
+                    title={initialTitle}
+                    topics={initialTopics}
+                    body={initialBody}
+                    reward={initialReward}
+                    upvote={initialUpvote}
+                    draftId={draftId}
+                    loading={loading}
+                    isUpdating={this.state.isUpdating}
+                    onUpdate={this.saveDraft}
+                    onSubmit={this.onSubmit}
+                    onDelete={this.onDelete}
+                  />
+                )}
               />
-            )}
+              <Route render={() => (
+                  <Editor
+                    ref={this.setForm}
+                    saving={saving}
+                    title={initialTitle}
+                    topics={initialTopics}
+                    body={initialBody}
+                    reward={initialReward}
+                    upvote={initialUpvote}
+                    draftId={draftId}
+                    loading={loading}
+                    isUpdating={this.state.isUpdating}
+                    onUpdate={this.saveDraft}
+                    onSubmit={this.onSubmit}
+                    onDelete={this.onDelete}
+                  />
+              )} />
+            </Switch>
           </div>
           {this.state.showModalDelete && (
             <DeleteDraftModal
