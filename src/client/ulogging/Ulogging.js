@@ -33,7 +33,7 @@ const knowledgeBankMenu = (
   </Menu>
 );
 
-const funLoveMenu = (
+const fanLoveMenu = (
   <Menu>
     <Menu.Item key="0">
       <Link to={'/ulog-ned'}>#ulog-ned (Emulate, Learn, Gratitude, Celebrate etc @ned)</Link>
@@ -108,7 +108,7 @@ const Ulogging = ({ intl }) => (
               Choose an editor from the dropdown below to be <i>"true fans"</i> of a project, community, ULOGGER, steemian etc by using your #ulogging to emulate, show gratitude, learn about, write about, share moments with etc (per day for freshness). <br/>
               e.g you can learn about Ned for the sake of <i>#ulogging under #ulog-ned</i> etc You will also be able to do likewise for projects, communities etc <br/>
             </p>
-            <Dropdown overlay={funLoveMenu} trigger={['click']}>
+            <Dropdown overlay={fanLoveMenu} trigger={['click']}>
               <Button>
                 Select An Editor <Icon type="down" />
               </Button>
