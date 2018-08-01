@@ -54,7 +54,7 @@ class DraftRow extends React.Component {
     body = body.replace(/\r?\n|\r|[\u200B-\u200D\uFEFF]/g, ' ').substring(0, 50);
     let draftTitle = title.length ? title : body;
     draftTitle = draftTitle.trim();
-    console.log(data);
+
     const tags = data.jsonMetadata.tags;
     let editorUrl = 'editor';
     if (tags) {
