@@ -54,6 +54,20 @@ class DraftRow extends React.Component {
     body = body.replace(/\r?\n|\r|[\u200B-\u200D\uFEFF]/g, ' ').substring(0, 50);
     let draftTitle = title.length ? title : body;
     draftTitle = draftTitle.trim();
+    console.log(data);
+    const tags = data.jsonMetadata.tags;
+    let editorUrl = 'editor';
+    if (tags) {
+      if (tags.length === 1 && tags[0] === "ulog") {
+        editorUrl = 'main-editor';
+      } else if (tags.length > 1 && tags[0] === "ulog") {
+        if (tags[1] === "ulog-ned") {
+          editorUrl = 'ulog-ned';
+        } else {
+          editorUrl = 'main-editor';
+        }
+      }
+    }
 
     return (
       <div
@@ -65,7 +79,7 @@ class DraftRow extends React.Component {
           <div className="DraftRow__contents__main">
             <Checkbox checked={selected} onChange={this.handleCheck} />
             <div>
-              <Link to={{ pathname: '/editor', search: `?draft=${id}` }}>
+              <Link to={{ pathname: `/${editorUrl}`, search: `?draft=${id}` }}>
                 <h3>
                   {draftTitle.length === 0 ? (
                     <FormattedMessage id="draft_untitled" defaultMessage="Untitled draft" />
