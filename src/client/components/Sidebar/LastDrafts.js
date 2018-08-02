@@ -4,6 +4,7 @@ import { FormattedMessage, FormattedRelative } from 'react-intl';
 import { Link } from 'react-router-dom';
 import Loading from '../../components/Icon/Loading';
 import { jsonParse } from '../../helpers/formatter';
+import { getEditorUrl } from '../../helpers/draftEditors';
 import './LastDrafts.less';
 import './SidebarContentBlock.less';
 
@@ -44,19 +45,7 @@ const LastDrafts = ({ drafts, loaded }) => {
           <FormattedMessage id="drafts_empty" defaultMessage="You don't have any draft saved" />
         )}
         {drafts.map(draft => {
-          const tags = draft.jsonMetadata.tags;
-          let editorUrl = 'editor';
-          if (tags) {
-            if (tags.length === 1 && tags[0] === "ulog") {
-              editorUrl = 'main-editor';
-            } else if (tags.length > 1 && tags[0] === "ulog") {
-              if (tags[1] === "ulog-ned") {
-                editorUrl = 'ulog-ned';
-              } else {
-                editorUrl = 'main-editor';
-              }
-            }
-          }
+          const editorUrl = getEditorUrl(draft.jsonMetadata.tags);
           return <Draft key={draft.id} draft={draft} editorUrl={editorUrl}/>;
         })}
         {!empty && (

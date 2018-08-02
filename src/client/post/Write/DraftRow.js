@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { Checkbox } from 'antd';
 import DeleteDraftModal from './DeleteDraftModal';
 import './DraftRow.less';
+import { getEditorUrl } from '../../helpers/draftEditors';
 
 class DraftRow extends React.Component {
   static propTypes = {
@@ -49,25 +50,14 @@ class DraftRow extends React.Component {
     const { id, data, selected } = this.props;
     const { lastUpdated } = data;
     const hasLastUpdated = !_.isUndefined(lastUpdated);
+    const editorUrl = getEditorUrl(data.jsonMetadata.tags)
+
     let { title = '', body = '' } = data;
     title = title.trim();
     body = body.replace(/\r?\n|\r|[\u200B-\u200D\uFEFF]/g, ' ').substring(0, 50);
+
     let draftTitle = title.length ? title : body;
     draftTitle = draftTitle.trim();
-
-    const tags = data.jsonMetadata.tags;
-    let editorUrl = 'editor';
-    if (tags) {
-      if (tags.length === 1 && tags[0] === "ulog") {
-        editorUrl = 'main-editor';
-      } else if (tags.length > 1 && tags[0] === "ulog") {
-        if (tags[1] === "ulog-ned") {
-          editorUrl = 'ulog-ned';
-        } else {
-          editorUrl = 'main-editor';
-        }
-      }
-    }
 
     return (
       <div
