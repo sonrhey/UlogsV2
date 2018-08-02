@@ -1,15 +1,15 @@
-export function getEditorUrl(tags) {
-    let editorUrl = 'editor';
+export function getEditorLocation(tags) {
+    let location = 'editor';
     if (tags) {
       if (tags.length === 1 && tags[0] === "ulog") {
-        editorUrl = 'main-editor';
+        location = 'main-editor';
       } else if (tags.length > 1 && tags[0] === "ulog") {
         if (tags[1] === "ulog-ned") {
-          editorUrl = 'ulog-ned';
+          location = 'ulog-ned';
         } else {
-          editorUrl = 'main-editor';
+          location = 'main-editor';
         }
       }
     }
-    return editorUrl;
+    return location;
 }

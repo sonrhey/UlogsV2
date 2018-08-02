@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { Checkbox } from 'antd';
 import DeleteDraftModal from './DeleteDraftModal';
 import './DraftRow.less';
-import { getEditorUrl } from '../../helpers/draftEditors';
+import { getEditorLocation } from '../../helpers/draftEditors';
 
 class DraftRow extends React.Component {
   static propTypes = {
@@ -50,7 +50,7 @@ class DraftRow extends React.Component {
     const { id, data, selected } = this.props;
     const { lastUpdated } = data;
     const hasLastUpdated = !_.isUndefined(lastUpdated);
-    const editorUrl = getEditorUrl(data.jsonMetadata.tags)
+    const editorLocation = getEditorLocation(data.jsonMetadata.tags)
 
     let { title = '', body = '' } = data;
     title = title.trim();
@@ -69,7 +69,7 @@ class DraftRow extends React.Component {
           <div className="DraftRow__contents__main">
             <Checkbox checked={selected} onChange={this.handleCheck} />
             <div>
-              <Link to={{ pathname: `/${editorUrl}`, search: `?draft=${id}` }}>
+              <Link to={{ pathname: `/${editorLocation}`, search: `?draft=${id}` }}>
                 <h3>
                   {draftTitle.length === 0 ? (
                     <FormattedMessage id="draft_untitled" defaultMessage="Untitled draft" />
