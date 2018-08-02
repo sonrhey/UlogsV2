@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, FormattedRelative } from 'react-intl';
 import { Link } from 'react-router-dom';
 import Loading from '../../components/Icon/Loading';
-import { jsonParse } from '../../helpers/formatter';
+import { getEditorLocation } from '../../helpers/draftEditors';
 import './LastDrafts.less';
 import './SidebarContentBlock.less';
 
-const Draft = ({ draft, editorUrl }) => (
+const Draft = ({ draft, editorLocation }) => (
   <div className="LastDrafts__draft">
-    <Link to={{ pathname: `/${editorUrl}`, search: `?draft=${draft.id}` }}>
+    <Link to={{ pathname: `/${editorLocation}`, search: `?draft=${draft.id}` }}>
       {draft.title ? (
         draft.title
       ) : (
@@ -44,20 +44,8 @@ const LastDrafts = ({ drafts, loaded }) => {
           <FormattedMessage id="drafts_empty" defaultMessage="You don't have any draft saved" />
         )}
         {drafts.map(draft => {
-          const tags = draft.jsonMetadata.tags;
-          let editorUrl = 'editor';
-          if (tags) {
-            if (tags.length === 1 && tags[0] === "ulog") {
-              editorUrl = 'main-editor';
-            } else if (tags.length > 1 && tags[0] === "ulog") {
-              if (tags[1] === "ulog-ned") {
-                editorUrl = 'ulog-ned';
-              } else {
-                editorUrl = 'main-editor';
-              }
-            }
-          }
-          return <Draft key={draft.id} draft={draft} editorUrl={editorUrl}/>;
+          const editorLocation = getEditorLocation(draft.jsonMetadata.tags);
+          return <Draft key={draft.id} draft={draft} editorLocation={editorLocation} />;
         })}
         {!empty && (
           <h4 className="LastDrafts__more">
