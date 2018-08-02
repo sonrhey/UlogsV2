@@ -44,8 +44,8 @@ const LastDrafts = ({ drafts, loaded }) => {
           <FormattedMessage id="drafts_empty" defaultMessage="You don't have any draft saved" />
         )}
         {drafts.map(draft => {
-          const editorUrl = getEditorLocation(draft.jsonMetadata.tags);
-          return <Draft key={draft.id} draft={draft} editorUrl={editorUrl} />;
+          const editorLocation = getEditorLocation(draft.jsonMetadata.tags);
+          return <Draft key={draft.id} draft={draft} editorLocation={editorLocation} />;
         })}
         {!empty && (
           <h4 className="LastDrafts__more">
